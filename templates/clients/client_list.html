@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<html>
+<head>
+   <title>Client List</title>
+</head>
+<body>
+   <h1>Список клиентов</h1>
+   <a href="{% url 'mailing:client-create' %}">Создать нового клиента</a>
+   <ul>
+       {% for client in clients %}
+           <li>
+               {{ client.email }} - {{ client.full_name }}
+               <a href="{% url 'mailing:client-update' client.pk %}">Посмотреть/Отредактировать</a>
+               <a href="{% url 'mailing:client-delete' client.pk %}">Удалить клиента</a>
+           </li>
+       {% endfor %}
+   </ul>
+</body>
+</html>
+{% endblock %}

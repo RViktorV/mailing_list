@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<h2>{% if object %}Редактировать{% else %}Добавить{% endif %} клиента</h2>
+<form method="post">
+   {% csrf_token %}
+   {{ form.as_p }}
+   <button type="submit">Сохранить</button>
+</form>
+<a href="{% url 'mailing:client-list' %}">Назад к списку клиентов</a>
+{% endblock %}

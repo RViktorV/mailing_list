@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+
+<html lang="ru">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Почтовые рассылки</title>
+   <style>
+       body {
+           font-family: Arial, sans-serif;
+           margin: 0;
+           padding: 0;
+       }
+       header {
+           text-align: center;
+           background-color: #f0f0f0; /* цвет фона для заголовка */
+           padding: 20px 0; /* отступы сверху и снизу */
+       }
+       nav {
+           text-align: center; /* центрировать навигацию */
+           margin: 20px 0; /* отступы сверху и снизу */
+       }
+       nav ul {
+           list-style: none; /* убрать маркеры списка */
+           padding: 0; /* убрать отступы */
+       }
+       nav li {
+           display: inline; /* отображать элементы списка в строку */
+           margin: 0 15px; /* отступы между элементами списка */
+       }
+       footer {
+           text-align: center;
+           padding: 20px 0;
+           background-color: #f0f0f0; /* цвет фона для футера */
+       }
+   </style>
+</head>
+<body>
+   <header>
+       <h1>Почтовые рассылки</h1>
+   </header>
+   <nav>
+       <ul>
+           <li><a href="{% url 'mailing:client-list' %}">Клиенты</a></li>
+           <li><a href="{% url 'mailing:message-list' %}">Сообщения</a></li>
+           <li><a href="{% url 'mailing:mailing-list' %}">Рассылка сообщений</a></li>
+           <li><a href="{% url 'mailing:attempt-list' %}">Список попыток</a></li>
+       </ul>
+   </nav>
+   <main>
+       {% block content %}
+       <!-- Основное содержимое страницы будет вставляться здесь -->
+       {% endblock %}
+   </main>
+   <footer>
+       <p>&copy; 2024 Почтовые рассылки</p>
+   </footer>
+</body>
+</html>
+{% endblock %}

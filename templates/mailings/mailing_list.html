@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<html>
+<head>
+   <title>Mailing List</title>
+</head>
+<body>
+   <h1>Список рассылки</h1>
+   <a href="{% url 'mailing:mailing-create' %}">Создать новую рассылку</a>
+   <ul>
+       {% for mailing in mailings %}
+           <li>
+               {{ mailing.message.subject }} - {{ mailing.start_datetime }}
+               <a href="{% url 'mailing:mailing-update' mailing.pk %}">Edit</a>
+               <a href="{% url 'mailing:mailing-delete' mailing.pk %}">Delete</a>
+           </li>
+       {% endfor %}
+   </ul>
+</body>
+</html>
+{% endblock %}

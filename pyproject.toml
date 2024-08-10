@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "mailing"
+version = "0.1.0"
+description = ""
+authors = ["RViktorV <rgavih@yandex.ru>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+django = "^5.0.7"
+psycopg = "^3.2.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
