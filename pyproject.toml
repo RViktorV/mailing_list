@@ -6,9 +6,9 @@ authors = ["RViktorV <rgavih@yandex.ru>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.12"
-django = "^5.0.7"
-psycopg = "^3.2.1"
+python = ">=3.11,<3.13"
+psycopg2 = { version = "2.9.9", allow-prereleases = true, extras = ["--no-binary psycopg2"] }
+django = "4.2.2"
 
 
 [build-system]
