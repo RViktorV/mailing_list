@@ -59,7 +59,6 @@ class Mailing(models.Model):
         verbose_name = 'Рассылка'
         verbose_name_plural = 'Рассылки'
 
-
         def __str__(self):
             return f"{self.message.subject} - {self.start_datetime}"
 
@@ -76,7 +75,6 @@ class MailingAttempt(models.Model):
     class Meta:
         verbose_name = 'Попытка'
         verbose_name_plural = 'Попытки'
-
 
         def __str__(self):
             return f"{self.mailing} - {self.attempt_datetime}"

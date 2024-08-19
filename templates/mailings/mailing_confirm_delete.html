@@ -1,12 +1,17 @@
 {% extends 'base.html' %}
 
-
 {% block content %}
-<h2>Подтверждение удаления рассылки</h2>
-<p>Вы уверены, что хотите удалить рассылку "{{ object.message.subject }}"?</p>
-<form method="post">
-   {% csrf_token %}
-   <button type="submit">Удалить</button>
-</form>
-<a href="{% url 'mailing:mailing-list' %}">Отмена</a>
+<div class="delete-confirmation-container">
+    <h2 class="delete-title">Подтверждение удаления рассылки</h2>
+    <p class="delete-message">Вы уверены, что хотите удалить рассылку "<strong>{{ object.message.subject }}</strong>"?
+    </p>
+
+    <div class="delete-actions">
+        <form method="post" class="delete-form">
+            {% csrf_token %}
+            <button type="submit" class="btn-delete">Удалить</button>
+        </form>
+        <a href="{% url 'mailing:mailing-list' %}" class="btn-cancel">Отмена</a>
+    </div>
+</div>
 {% endblock %}

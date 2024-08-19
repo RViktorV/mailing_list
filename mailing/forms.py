@@ -1,6 +1,7 @@
 from django import forms
 from .models import Mailing
 
+
 class MailingForm(forms.ModelForm):
     class Meta:
         model = Mailing
@@ -8,6 +9,7 @@ class MailingForm(forms.ModelForm):
         widgets = {
             'start_datetime': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
         }
+
 
 class AttemptForm(forms.ModelForm):
     class Meta:
