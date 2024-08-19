@@ -8,3 +8,8 @@ class MailingForm(forms.ModelForm):
         widgets = {
             'start_datetime': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
         }
+
+class AttemptForm(forms.ModelForm):
+    class Meta:
+        model = Mailing
+        fields = ['status']
