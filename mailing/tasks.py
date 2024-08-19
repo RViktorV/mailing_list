@@ -7,6 +7,7 @@ from .models import Mailing, MailingAttempt
 
 from apscheduler.schedulers.background import BackgroundScheduler
 
+
 def send_mailing():
     """
     Эта функция проверяет рассылки, подлежащие отправке, на основе их расписания (ЕЖЕДНЕВНО, ЕЖЕНЕДЕЛЬНО, ЕЖЕМЕСЯЧНО).
@@ -66,7 +67,6 @@ def start_scheduler():
     scheduler.add_job(send_mailing, 'interval', minutes=1)
     scheduler.start()
 
-
 # import pytz
 # from datetime import datetime, timedelta
 # from apscheduler.schedulers.background import BackgroundScheduler
@@ -125,4 +125,3 @@ def start_scheduler():
 #             mailing.status = 'sent'
 #             mailing.save()
 #
-
