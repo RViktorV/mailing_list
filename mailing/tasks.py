@@ -25,7 +25,6 @@ def send_mailing():
         last_attempt = MailingAttempt.objects.filter(mailing=mailing).order_by('-attempt_datetime').first()
 
         if last_attempt:
-            time_since_last_attempt = current_datetime - last_attempt.attempt_datetime
 
             # Рассчитайте время следующей отправки на основе периодичности.
             if mailing.periodicity == 'D':
