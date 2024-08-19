@@ -44,9 +44,9 @@ class Mailing(models.Model):
     STARTED = 'STARTED'
     COMPLETED = 'COMPLETED'
     STATUS_CHOICES = [
-        (CREATED, 'Created'),
-        (STARTED, 'Started'),
-        (COMPLETED, 'Completed'),
+        (CREATED, 'Создано'),
+        (STARTED, 'Начато'),
+        (COMPLETED, 'Завершено'),
     ]
 
     start_datetime = models.DateTimeField()
