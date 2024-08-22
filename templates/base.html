@@ -1,119 +1,16 @@
 <!DOCTYPE html>
 <html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Почтовые рассылки</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f9f9f9;
-        }
-
-        header {
-            text-align: center;
-            background-color: #f0f0f0; /* цвет фона для заголовка */
-            padding: 20px 0; /* отступы сверху и снизу */
-        }
-
-        nav {
-            text-align: center; /* центрировать навигацию */
-            margin: 20px 0; /* отступы сверху и снизу */
-        }
-
-        nav ul {
-            list-style: none; /* убрать маркеры списка */
-            padding: 0; /* убрать отступы */
-        }
-
-        nav li {
-            display: inline; /* отображать элементы списка в строку */
-            margin: 0 15px; /* отступы между элементами списка */
-        }
-
-        footer {
-            text-align: center;
-            padding: 20px 0;
-            background-color: #f0f0f0; /* цвет фона для футера */
-        }
-
-        .form-container {
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 80%;
-            max-width: 600px;
-            margin: 40px auto;
-            text-align: center;
-        }
-
-        .form-container h2 {
-            color: #333;
-            margin-bottom: 20px;
-        }
-
-        form {
-            margin-bottom: 20px;
-        }
-
-        .submit-button {
-            background-color: #007bff;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-
-        .submit-button:hover {
-            background-color: #0056b3;
-        }
-
-        .back-link {
-            display: inline-block;
-            margin-top: 20px;
-            text-decoration: none;
-            color: #007bff;
-            font-size: 16px;
-        }
-
-        .back-link:hover {
-            text-decoration: underline;
-        }
-
-        .form-container input[type="text"],
-        .form-container input[type="email"],
-        .form-container input[type="datetime-local"],
-        .form-container select,
-        .form-container textarea {
-            width: calc(100% - 22px);
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            margin-bottom: 15px;
-            font-size: 16px;
-        }
-
-        .form-container textarea {
-            resize: vertical;
-        }
-    </style>
-</head>
+{% include 'includes/head.html' %}
 <body>
-<header>
+<header style="display: flex; justify-content: center; align-items: center; height: 100px;">
     <h1>Почтовые рассылки</h1>
 </header>
 <nav>
-    <ul>
-        <li><a href="{% url 'mailing:client-list' %}">Клиенты</a></li>
-        <li><a href="{% url 'mailing:message-list' %}">Сообщения</a></li>
-        <li><a href="{% url 'mailing:mailing-list' %}">Рассылка сообщений</a></li>
-        <li><a href="{% url 'mailing:attempt-list' %}">Список попыток</a></li>
+    <ul style="display: flex; justify-content: center; padding: 0; list-style: none;">
+        <li style="margin: 0 15px;"><a href="{% url 'mailing:client-list' %}">Клиенты</a></li>
+        <li style="margin: 0 15px;"><a href="{% url 'mailing:message-list' %}">Сообщения</a></li>
+        <li style="margin: 0 15px;"><a href="{% url 'mailing:mailing-list' %}">Рассылка сообщений</a></li>
+        <li style="margin: 0 15px;"><a href="{% url 'mailing:attempt-list' %}">Список попыток</a></li>
     </ul>
 </nav>
 <main>

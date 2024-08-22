@@ -1,9 +1,18 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Подтверждение удаления рассылки</title>
+    {% include 'includes/style_delete.html' %}
+</head>
+<body>
 <div class="delete-confirmation-container">
     <h2 class="delete-title">Подтверждение удаления рассылки</h2>
-    <p class="delete-message">Вы уверены, что хотите удалить рассылку "<strong>{{ object.message.subject }}</strong>"?
+    <p class="delete-message">
+        Вы уверены, что хотите удалить рассылку "<strong>{{ object.message.subject }}</strong>"?
     </p>
 
     <div class="delete-actions">
@@ -14,4 +23,7 @@
         <a href="{% url 'mailing:mailing-list' %}" class="btn-cancel">Отмена</a>
     </div>
 </div>
+{% include 'includes/style.html' %}
+</body>
+</html>
 {% endblock %}

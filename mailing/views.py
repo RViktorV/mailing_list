@@ -1,7 +1,7 @@
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 
-from .forms import MailingForm, AttemptForm
+from .forms import MailingForm, ClientForm, MessageForm, MailingAttemptForm
 from .models import Client, Message, Mailing, MailingAttempt
 from django.shortcuts import render
 
@@ -12,22 +12,23 @@ def home(request):
 
 class ClientListView(ListView):
     model = Client
+    form_class = ClientForm
     template_name = 'clients/client_list.html'
     context_object_name = 'clients'
 
 
 class ClientCreateView(CreateView):
     model = Client
+    form_class = ClientForm
     template_name = 'clients/client_form.html'
     success_url = reverse_lazy('mailing:client-list')
-    fields = ['email', 'full_name', 'comment']
 
 
 class ClientUpdateView(UpdateView):
     model = Client
+    form_class = ClientForm
     template_name = 'clients/client_form.html'
     success_url = reverse_lazy('mailing:client-list')
-    fields = ['email', 'full_name', 'comment']
 
 
 class ClientDeleteView(DeleteView):
@@ -44,27 +45,27 @@ class MessageListView(ListView):
 
 class MessageCreateView(CreateView):
     model = Message
+    form_class = MessageForm
     template_name = 'message/message_form.html'
     success_url = reverse_lazy('mailing:message-list')
-    fields = ['subject', 'body']
 
 
 class MessageUpdateView(UpdateView):
     model = Message
+    form_class = MessageForm
     template_name = 'message/message_form.html'
     success_url = reverse_lazy('mailing:message-list')
-    fields = ['subject', 'body']
 
 
 class MessageDeleteView(DeleteView):
     model = Message
     template_name = 'message/message_confirm_delete.html'
     success_url = reverse_lazy('mailing:message-list')
-    fields = ['subject', 'body']
 
 
 class MailingListView(ListView):
     model = Mailing
+    form_class = MailingForm
     template_name = 'mailings/mailing_list.html'
     context_object_name = 'mailings'
 
@@ -74,7 +75,6 @@ class MailingCreateView(CreateView):
     form_class = MailingForm
     template_name = 'mailings/mailing_form.html'
     success_url = reverse_lazy('mailing:mailing-list')
-    # fields = ['start_datetime', 'periodicity', 'message', 'clients']
 
 
 class MailingUpdateView(UpdateView):
@@ -82,7 +82,6 @@ class MailingUpdateView(UpdateView):
     form_class = MailingForm
     template_name = 'mailings/mailing_form.html'
     success_url = reverse_lazy('mailing:mailing-list')
-    # fields = ['start_datetime', 'periodicity', 'message', 'clients']
 
 
 class MailingDeleteView(DeleteView):
@@ -93,7 +92,7 @@ class MailingDeleteView(DeleteView):
 
 class AttemptListView(ListView):
     model = MailingAttempt
-    form_class = AttemptForm
+    form_class = MailingAttemptForm
     template_name = 'attempt/attempt_list.html'
     context_object_name = 'attempts'
     success_url = reverse_lazy('mailing:mailing-list')
