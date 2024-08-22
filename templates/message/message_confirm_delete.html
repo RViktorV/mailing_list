@@ -1,83 +1,26 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<!DOCTYPE html>
+
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Подтверждение удаления сообщения</title>
-    <style>
-        body {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-        }
-
-        h2 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        p {
-            text-align: center;
-            font-size: 18px;
-            margin-bottom: 20px;
-        }
-
-        form {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        button {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            padding: 10px 20px;
-            cursor: pointer;
-            font-size: 16px;
-            margin: 5px;
-            width: 200px;
-            text-align: center;
-        }
-
-        button:hover {
-            background-color: #0056b3;
-        }
-
-        a {
-            text-decoration: none;
-        }
-
-        .cancel-link {
-            margin-top: 10px;
-            display: block;
-            text-align: center;
-            font-size: 16px;
-            color: #28a745; /* Зеленый цвет для ссылки "Отмена" */
-        }
-
-        .cancel-link:hover {
-            text-decoration: underline;
-        }
-    </style>
+    <title>Подтверждение удаления сообещния</title>
+    {% include 'includes/style_delete.html' %}
 </head>
 <body>
-<h2>Подтверждение удаления сообщения</h2>
-<p>Вы уверены, что хотите удалить сообщение "{{ object.subject }}"?</p>
+<header>
+    <h2>Подтверждение удаления сообещния</h2>
+</header>
+<p>Вы уверены, что хотите удалить сообещния "{{ object.subject }}"?</p>
 <form method="post">
     {% csrf_token %}
     <button type="submit">Удалить</button>
+    <a href="{% url 'mailing:message-list' %}">
+        <button type="button" class="cancel-button">Отмена</button>
+    </a>
 </form>
-<a href="{% url 'mailing:message-list' %}" class="cancel-link">Отмена</a>
 {% include 'includes/style.html' %}
 </body>
 </html>

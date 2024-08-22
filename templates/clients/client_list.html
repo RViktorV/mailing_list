@@ -2,35 +2,24 @@
 
 {% block content %}
 <html>
-
 <body>
-    <!-- Шапка -->
-    <div class="header">
-        <h1>Почтовые рассылки</h1>
+<!-- Основное содержимое -->
+<div class="main-content">
+    <div class="container">
+        <h2>Список клиентов</h2>
+        <a href="{% url 'mailing:client-create' %}">Создать нового клиента</a>
+        <ul>
+            {% for client in clients %}
+            <li>
+                <strong>{{ client.full_name }}</strong><br>
+                {{ client.email }}<br>
+                <a href="{% url 'mailing:client-update' client.pk %}">Редактировать</a>
+                <a href="{% url 'mailing:client-delete' client.pk %}">Удалить</a>
+            </li>
+            {% endfor %}
+        </ul>
     </div>
-
-    <!-- Основное содержимое -->
-    <div class="main-content">
-        <div class="container">
-            <h2>Список клиентов</h2>
-            <a href="{% url 'mailing:client-create' %}">Создать нового клиента</a>
-            <ul>
-                {% for client in clients %}
-                    <li>
-                        <strong>{{ client.full_name }}</strong><br>
-                        {{ client.email }}<br>
-                        <a href="{% url 'mailing:client-update' client.pk %}">Посмотреть/Отредактировать</a>
-                        <a href="{% url 'mailing:client-delete' client.pk %}">Удалить клиента</a>
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
-    </div>
-
-    <!-- Подвал -->
-    <div class="footer">
-        <p>&copy; 2024 Ваша компания. Все права защищены.</p>
-    </div>
+</div>
 </body>
 </html>
 {% endblock %}

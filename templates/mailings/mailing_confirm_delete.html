@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -9,20 +10,17 @@
     {% include 'includes/style_delete.html' %}
 </head>
 <body>
-<div class="delete-confirmation-container">
-    <h2 class="delete-title">Подтверждение удаления рассылки</h2>
-    <p class="delete-message">
-        Вы уверены, что хотите удалить рассылку "<strong>{{ object.message.subject }}</strong>"?
-    </p>
-
-    <div class="delete-actions">
-        <form method="post" class="delete-form">
-            {% csrf_token %}
-            <button type="submit" class="btn-delete">Удалить</button>
-        </form>
-        <a href="{% url 'mailing:mailing-list' %}" class="btn-cancel">Отмена</a>
-    </div>
-</div>
+<header>
+    <h2>Подтверждение удаления рассылки</h2>
+</header>
+<p>Вы уверены, что хотите удалить рассылку "{{ object.message.subject }}"?</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Удалить</button>
+    <a href="{% url 'mailing:mailing-list' %}">
+        <button type="button" class="cancel-button">Отмена</button>
+    </a>
+</form>
 {% include 'includes/style.html' %}
 </body>
 </html>

@@ -1,6 +1,7 @@
 <style>
         body {
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
@@ -9,71 +10,49 @@
             background-color: #f4f4f4;
         }
 
-        .delete-confirmation-container {
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        header {
             text-align: center;
-            max-width: 500px;
-            width: 100%;
-        }
-
-        .delete-title {
-            font-size: 24px;
-            color: #333;
             margin-bottom: 20px;
         }
 
-        .delete-message {
+        p {
+            text-align: center;
             font-size: 18px;
-            color: #555;
             margin-bottom: 20px;
         }
 
-        .delete-actions {
+        form {
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
-        .delete-form {
-            margin-bottom: 10px;
-        }
-
-        .btn-delete {
-            background-color: #dc3545; /* Красный цвет для кнопки "Удалить" */
+        button {
+            background-color: #007bff;
             color: white;
             border: none;
             border-radius: 5px;
             padding: 10px 20px;
             cursor: pointer;
             font-size: 16px;
-            text-align: center;
+            margin: 5px;
             width: 200px;
-            text-decoration: none;
-        }
-
-        .btn-delete:hover {
-            background-color: #c82333; /* Более темный красный цвет при наведении */
-        }
-
-        .btn-cancel {
-            background-color: #28a745; /* Зеленый цвет для кнопки "Отмена" */
-            color: white;
-            border: none;
-            border-radius: 5px;
-            padding: 10px 20px;
-            cursor: pointer;
-            font-size: 16px;
             text-align: center;
-            width: 200px;
-            text-decoration: none;
-            display: inline-block;
-            margin-top: 10px;
         }
 
-        .btn-cancel:hover {
-            background-color: #218838; /* Более темный зеленый цвет при наведении */
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .cancel-button {
+            background-color: #28a745; /* Зеленый цвет */
+        }
+
+        .cancel-button:hover {
+            background-color: #218838; /* Темнее зеленый цвет при наведении */
+        }
+
+        a {
+            text-decoration: none;
         }
     </style>
