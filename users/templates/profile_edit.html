@@ -1,0 +1,17 @@
+{% extends 'catalog/home.html' %}
+
+{% block content %}
+<h2 style="text-align: center;">Редактировать профиль</h2>
+<form method="post" style="max-width: 500px; margin: 0 auto;">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" style="display: block; width: 100%; padding: 10px; font-size: 16px; border: none; border-radius: 5px; background-color: #4CAF50; color: white; cursor: pointer; margin-top: 10px;">Сохранить изменения</button>
+</form>
+
+<h2 style="text-align: center;">Сменить пароль</h2>
+<form method="post" action="{% url 'users:password_change' %}" style="max-width: 500px; margin: 20px auto;">
+    {% csrf_token %}
+    {{ password_change_form.as_p }}
+    <button type="submit" style="display: block; width: 100%; padding: 10px; font-size: 16px; border: none; border-radius: 5px; background-color: #008CBA; color: white; cursor: pointer; margin-top: 10px;">Сменить пароль</button>
+</form>
+{% endblock %}
