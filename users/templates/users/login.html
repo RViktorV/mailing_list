@@ -1,4 +1,4 @@
-{% extends 'catalog/home.html' %}
+{% extends 'base_login.html' %}
 
 {% load static %}  <!-- Загрузка тега static -->
 
@@ -87,12 +87,6 @@
             text-align: center;
         }
     </style>
-
-    <!-- Шапка сайта -->
-    <header>
-        <h1>Магазин "Подбери"</h1>
-    </header>
-
     <!-- Основное содержимое с формой входа -->
     <div class="content-wrapper">
         <div class="login-container">
@@ -112,10 +106,4 @@
              <p><a href="{% url 'users:password_reset' %}">Забыли пароль?</a></p>
         </div>
     </div>
-
-    <!-- Подвал сайта -->
-    <footer>
-        <p>&copy; 2024 Магазин "Подбери". Все права защищены.</p>
-    </footer>
-
 {% endblock %}

@@ -1,8 +1,8 @@
-{% extends 'catalog/home.html' %}
+{% extends 'base_login.html' %}
 
-{% load static %}
 
 {% block content %}
+{% load static %}
     <style>
         /* Стиль для всей страницы */
         body, html {
@@ -48,7 +48,20 @@
             padding: 10px;
             margin-bottom: 20px;
             border: 1px solid #ccc;
+            border-radius: 4px;       color: #555;
+        }
+
+        input[type="text"], input[type="email"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
             border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+
             box-sizing: border-box;
             font-size: 16px;
         }
@@ -87,12 +100,6 @@
             text-align: center;
         }
     </style>
-
-    <!-- Шапка сайта -->
-    <header>
-        <h1>Магазин "Подбери"</h1>
-    </header>
-
     <!-- Основное содержимое с формой регистрации -->
     <div class="content-wrapper">
         <div class="login-container">
@@ -120,10 +127,4 @@
             <p><a href="{% url 'users:login' %}">Уже есть аккаунт? Войти</a></p>
         </div>
     </div>
-
-    <!-- Подвал сайта -->
-    <footer>
-        <p>&copy; 2024 Магазин "Подбери". Все права защищены.</p>
-    </footer>
-
 {% endblock %}
