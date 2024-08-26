@@ -7,7 +7,7 @@ from django.shortcuts import render
 
 
 def home(request):
-    return render(request, 'base_login.html')
+    return render(request, 'base.html')
 
 
 class ClientListView(ListView):
