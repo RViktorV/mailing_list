@@ -1,6 +1,7 @@
 from django import forms
 from .models import Client, Message, Mailing, MailingAttempt
 
+
 class ClientForm(forms.ModelForm):
     class Meta:
         model = Client
@@ -10,6 +11,12 @@ class ClientForm(forms.ModelForm):
             'comment': forms.Textarea(attrs={'placeholder': 'Оставьте комментарий'}),
         }
 
+
+class ClientModeratorForm(forms.ModelForm):
+    class Meta:
+        model = Client
+        fields = ['full_name']
+
 class MessageForm(forms.ModelForm):
     class Meta:
         model = Message
@@ -18,6 +25,7 @@ class MessageForm(forms.ModelForm):
             'subject': forms.TextInput(attrs={'placeholder': 'Тема сообщения'}),
             'body': forms.Textarea(attrs={'placeholder': 'Текст сообщения'}),
         }
+
 
 class MailingForm(forms.ModelForm):
     class Meta:
@@ -31,6 +39,8 @@ class MailingForm(forms.ModelForm):
             'clients': forms.CheckboxSelectMultiple(),
         }
 
+
+
 class MailingAttemptForm(forms.ModelForm):
     class Meta:
         model = MailingAttempt
@@ -40,3 +50,6 @@ class MailingAttemptForm(forms.ModelForm):
             'status': forms.Select(),
             'server_response': forms.Textarea(attrs={'placeholder': 'Ответ сервера'}),
         }
+
+
+
