@@ -1,5 +1,7 @@
 from django.db import models
 
+from users.models import Users
+
 NULLABLE = {'blank': True, 'null': True}
 
 
@@ -9,9 +11,15 @@ class Client(models.Model):
     full_name = models.CharField(max_length=100, verbose_name='ФИО', help_text='Введите ФИО')
     comment = models.TextField(**NULLABLE)
 
+    owner = models.ForeignKey(Users, verbose_name='Собственник клиента', **NULLABLE, on_delete=models.SET_NULL)
+
     class Meta:
         verbose_name = 'Клиент'
         verbose_name_plural = 'Клиенты'
+        permissions = [
+            ("watch-list-client", "Может просматривать список пользователей сервиса."),
+
+        ]
 
         def __str__(self):
             return self.email
@@ -21,6 +29,9 @@ class Message(models.Model):
     objects = None
     subject = models.CharField(max_length=255)
     body = models.TextField()
+
+    owner = models.ForeignKey(Users, verbose_name='Собственник сообщения', **NULLABLE, on_delete=models.SET_NULL)
+
 
     class Meta:
         verbose_name = 'Сообщение'
@@ -55,9 +66,16 @@ class Mailing(models.Model):
     message = models.ForeignKey(Message, on_delete=models.CASCADE)
     clients = models.ManyToManyField(Client)
 
+    owner = models.ForeignKey(Users, verbose_name='Собственник рассылки', **NULLABLE, on_delete=models.SET_NULL)
+
     class Meta:
         verbose_name = 'Рассылка'
         verbose_name_plural = 'Рассылки'
+        permissions = [
+            ("watch-mailings", "Может просматривать любые рассылки"),
+            ("deactivate-mailings", "Может отключять рассылки"),
+
+        ]
 
         def __str__(self):
             return f"{self.message.subject} - {self.start_datetime}"
