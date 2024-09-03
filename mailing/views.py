@@ -1,6 +1,6 @@
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
-from django.contrib.auth.mixins import UserPassesTestMixin
+from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
 from django.shortcuts import render
 from .forms import MailingForm, ClientForm, MessageForm, MailingAttemptForm
 from .models import Client, Message, Mailing, MailingAttempt
@@ -41,17 +41,16 @@ class MailingDeactivateView(CanDeactivateMailingsMixin, UpdateView):
         return super().form_valid(form)
 
 
-class ClientListView(IsSuperuserMixin, IsManagerMixin, ListView):
+class ClientListView(LoginRequiredMixin, ListView):
     model = Client
-    template_name = 'clients/client_list.html'
-    context_object_name = 'clients'
+    template_name = "clients/client_list.html"
+    context_object_name = "clients"
 
     def get_queryset(self):
-        if self.request.user.is_superuser:
-            return Client.objects.all()
-        if self.request.user.groups.filter(name='Moderator').exists():
-            return Client.objects.all()
-        return Client.objects.filter(owner=self.request.user)
+        queryset = super().get_queryset().filter(owner=self.request.user)
+        if not queryset.exists():
+            self.extra_context = {'no_clients': True}
+        return queryset
 
 
 class ClientCreateView(CreateView):
@@ -90,17 +89,16 @@ class ClientDeleteView(IsSuperuserMixin, DeleteView):
         return Client.objects.filter(owner=self.request.user)
 
 
-class MessageListView(IsSuperuserMixin, IsManagerMixin, ListView):
+class MessageListView(LoginRequiredMixin, ListView):
     model = Message
-    template_name = 'message/message_list.html'
-    context_object_name = 'messages'
+    template_name = "message/message_list.html"
+    context_object_name = "message"
 
     def get_queryset(self):
-        if self.request.user.is_superuser:
-            return Message.objects.all()
-        if self.request.user.groups.filter(name='Moderator').exists():
-            return Message.objects.all()
-        return Message.objects.filter(owner=self.request.user)
+        queryset = super().get_queryset().filter(owner=self.request.user)
+        if not queryset.exists():
+            self.extra_context = {'no_messages': True}
+        return queryset
 
 
 class MessageCreateView(CreateView):
@@ -139,17 +137,16 @@ class MessageDeleteView(IsSuperuserMixin, DeleteView):
         return Message.objects.filter(owner=self.request.user)
 
 
-class MailingListView(CanViewMailingsMixin, ListView):
+class MailingListView(LoginRequiredMixin, ListView):
     model = Mailing
-    template_name = 'mailings/mailing_list.html'
-    context_object_name = 'mailings'
+    template_name = "mailings/mailing_list.html"
+    context_object_name = "mailings"
 
     def get_queryset(self):
-        if self.request.user.is_superuser:
-            return Mailing.objects.all()
-        if self.request.user.groups.filter(name='Moderator').exists():
-            return Mailing.objects.all()
-        return Mailing.objects.filter(owner=self.request.user)
+        queryset = super().get_queryset().filter(owner=self.request.user)
+        if not queryset.exists():
+            self.extra_context = {'no_mailings': True}
+        return queryset
 
 
 class MailingCreateView(CreateView):
@@ -165,25 +162,6 @@ class MailingCreateView(CreateView):
         return super().form_valid(form)
 
 
-class MailingUpdateView(IsSuperuserMixin, UpdateView):
-    model = Mailing
-    form_class = MailingForm
-    template_name = 'mailings/mailing_form.html'
-    success_url = reverse_lazy('mailing:mailing-list')
-
-    def get_queryset(self):
-        return Mailing.objects.all()
-
-
-class MailingDeleteView(IsSuperuserMixin, DeleteView):
-    model = Mailing
-    template_name = 'mailings/mailing_confirm_delete.html'
-    success_url = reverse_lazy('mailing:mailing-list')
-
-    def get_queryset(self):
-        return Mailing.objects.all()
-
-
 # class MailingUpdateView(IsSuperuserMixin, UpdateView):
 #     model = Mailing
 #     form_class = MailingForm
@@ -191,9 +169,8 @@ class MailingDeleteView(IsSuperuserMixin, DeleteView):
 #     success_url = reverse_lazy('mailing:mailing-list')
 #
 #     def get_queryset(self):
-#         if self.request.user.is_superuser:
-#             return Mailing.objects.all()
-#         return Mailing.objects.filter(owner=self.request.user)
+#         return Mailing.objects.all()
+#
 #
 # class MailingDeleteView(IsSuperuserMixin, DeleteView):
 #     model = Mailing
@@ -201,9 +178,29 @@ class MailingDeleteView(IsSuperuserMixin, DeleteView):
 #     success_url = reverse_lazy('mailing:mailing-list')
 #
 #     def get_queryset(self):
-#         if self.request.user.is_superuser:
-#             return Mailing.objects.all()
-#         return Mailing.objects.filter(owner=self.request.user)
+#         return Mailing.objects.all()
+
+
+class MailingUpdateView(IsSuperuserMixin, UpdateView):
+    model = Mailing
+    form_class = MailingForm
+    template_name = 'mailings/mailing_form.html'
+    success_url = reverse_lazy('mailing:mailing-list')
+
+    def get_queryset(self):
+        if self.request.user.is_superuser:
+            return Mailing.objects.all()
+        return Mailing.objects.filter(owner=self.request.user)
+
+class MailingDeleteView(IsSuperuserMixin, DeleteView):
+    model = Mailing
+    template_name = 'mailings/mailing_confirm_delete.html'
+    success_url = reverse_lazy('mailing:mailing-list')
+
+    def get_queryset(self):
+        if self.request.user.is_superuser:
+            return Mailing.objects.all()
+        return Mailing.objects.filter(owner=self.request.user)
 
 class AttemptListView(CanViewMailingsMixin, ListView):
     model = MailingAttempt
@@ -266,7 +263,7 @@ class AttemptListView(CanViewMailingsMixin, ListView):
 # class MessageListView(ListView):
 #     model = Message
 #     template_name = 'message/message_list.html'
-#     context_object_name = 'messages'
+#     context_object_name = 'message'
 #
 #
 # class MessageCreateView(CreateView):
