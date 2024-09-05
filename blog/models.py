@@ -31,3 +31,7 @@ class Blog(models.Model):
             ("can_is_published", "Можно отменять публикацию"),
 
         ]
+
+
+
+

@@ -68,6 +68,8 @@ class Mailing(models.Model):
 
     owner = models.ForeignKey(Users, verbose_name='Собственник рассылки', **NULLABLE, on_delete=models.SET_NULL)
 
+    STOPPED = 'completed'
+
     class Meta:
         verbose_name = 'Рассылка'
         verbose_name_plural = 'Рассылки'

@@ -2,13 +2,27 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
 from django.shortcuts import render
+
+from blog.models import Blog
 from .forms import MailingForm, ClientForm, MessageForm, MailingAttemptForm
 from .models import Client, Message, Mailing, MailingAttempt
 
+import random
 
 def home(request):
-    return render(request, 'base.html')
+    """Главная страница"""
 
+    mailings = Mailing.objects.all()
+    blogs = Blog.objects.order_by("?")[:3]  # Получаем случайные блоги
+
+    context = {
+        "mailings_count": mailings.count(),
+        "mailings_count_active": mailings.exclude(status=Mailing.STOPPED).count(),
+        "clients_count": Client.objects.all().values("email").distinct().count(),
+        "articles": blogs,  # Передаём блоги в контекст
+    }
+
+    return render(request, "base.html", context)
 
 class IsSuperuserMixin(UserPassesTestMixin):
     def test_func(self):
