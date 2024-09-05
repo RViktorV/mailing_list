@@ -7,7 +7,6 @@ from blog.models import Blog
 from .forms import MailingForm, ClientForm, MessageForm, MailingAttemptForm
 from .models import Client, Message, Mailing, MailingAttempt
 
-import random
 
 def home(request):
     """Главная страница"""

@@ -24,7 +24,6 @@ INSTALLED_APPS = [
     'mailing',
     'users',
     'blog',
-    'core',
 ]
 
 MIDDLEWARE = [
@@ -133,4 +132,11 @@ EMAIL_ADMIN = EMAIL_HOST_USER
 
 SCHEDULER_AUTOSTART = True
 
-
+CACHE_ENABLED = True
+if CACHE_ENABLED:
+    CACHES = {
+        "default": {
+            "BACKEND": "django.core.cache.backends.redis.RedisCache",
+            "LOCATION": os.getenv('LOCATION')
+        }
+    }
