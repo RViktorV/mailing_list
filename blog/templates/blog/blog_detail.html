@@ -14,7 +14,7 @@
         <p>Создан в: {{ blog.created_at }}</p>
         <p>Опубликовано: {% if blog.is_published %}Да{% else %}Нет{% endif %} </p>
         <p>Просмотров: {{ blog.view_count }}</p>
-        {% if perms.blog.can_title and perms.blog.can_content and perms.blog.can_preview_image and perms.blog.can_is_published %}
+        {% if object.owner == user or perms.blog.can_title and perms.blog.can_content and perms.blog.can_preview_image and perms.blog.can_is_published %}
         <a href="{% url 'blog:blog_update' blog.pk %}" class="btn btn-secondary">Редактировать</a>
         <a href="{% url 'blog:blog_delete' blog.pk %}" class="btn btn-danger">Удалить</a>
         {% endif %}

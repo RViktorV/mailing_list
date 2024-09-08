@@ -28,43 +28,34 @@ class IsOwnerOrContentManagerMixin(UserPassesTestMixin):
 
 class BlogListViewAll(ListView):
     """
-    Представление для отображения списка всех блогов, включая неопубликованные.
+    Представление для отображения списка всех блогов.
 
     Атрибуты:
         model: Модель, которая будет отображаться. В данном случае это модель Blog.
 
     Методы:
-        get_queryset: Возвращает все блоги для аутентифицированных пользователей и владельцев.
+        get_queryset: Возвращает все блоги.
     """
     model = Blog
+
+class BlogListView(ListView):
+    model = Blog
+    template_name = 'blog/blog_list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        context['is_content_manager'] = user.groups.filter(name='Content Manager').exists() or user.is_superuser
+        return context
 
     def get_queryset(self):
         user = self.request.user
         if user.is_authenticated:
             if user.is_superuser or user.groups.filter(name='Content Manager').exists():
                 return Blog.objects.all()
-            return Blog.objects.filter(owner=user)
-        return Blog.objects.none()
-
-class BlogListView(ListView):
-    """
-    Представление для отображения списка опубликованных блогов.
-
-    Атрибуты:
-        model: Модель, которая будет отображаться. В данном случае это модель Blog.
-        template_name: Шаблон для отображения списка опубликованных блогов.
-
-    Методы:
-        get_queryset: Возвращает только опубликованные блоги для аутентифицированных пользователей и владельцев.
-    """
-    model = Blog
-    template_name = 'blog/blog_list.html'
-
-    def get_queryset(self):
-        if self.request.user.is_authenticated and not self.request.user.is_superuser and not self.request.user.groups.filter(name='Content Manager').exists():
-            return Blog.objects.filter(is_published=True, owner=self.request.user)
+            else:
+                return Blog.objects.filter(owner=user) | Blog.objects.filter(is_published=True)
         return Blog.objects.filter(is_published=True)
-
 class BlogDetailView(DetailView):
     """
     Представление для отображения детальной информации о блоге.
@@ -84,50 +75,27 @@ class BlogDetailView(DetailView):
         return obj
 
 class BlogCreateView(LoginRequiredMixin, CreateView):
-    """
-    Представление для создания нового блога.
-
-    Атрибуты:
-        model: Модель, для которой создается новый объект. В данном случае это модель Blog.
-        form_class: Форма для создания блога.
-        success_url: URL для перенаправления после успешного создания блога.
-
-    Методы:
-        form_valid: Устанавливает владельца блога и сохраняет объект с новым слагом.
-    """
     model = Blog
     form_class = BlogForm
     success_url = reverse_lazy('blog:blog_list')
 
     def form_valid(self, form):
         if form.is_valid():
+            # Назначаем текущего пользователя владельцем блога
             new_blog = form.save(commit=False)
             new_blog.owner = self.request.user
-            new_blog.save()
             new_blog.slug = slugify(new_blog.title)
             new_blog.save()
         return super().form_valid(form)
 
 class BlogUpdateView(LoginRequiredMixin, IsOwnerOrContentManagerMixin, UpdateView):
-    """
-    Представление для обновления существующего блога.
-
-    Атрибуты:
-        model: Модель, для которой выполняется обновление. В данном случае это модель Blog.
-        form_class: Форма для редактирования блога.
-        success_url: URL для перенаправления после успешного обновления блога.
-
-    Методы:
-        form_valid: Обновляет слаг блога и сохраняет изменения.
-        get_success_url: Возвращает URL для перенаправления после успешного обновления.
-        get_form_class: Возвращает класс формы в зависимости от прав пользователя.
-    """
     model = Blog
     form_class = BlogForm
     success_url = reverse_lazy('blog:blog_list')
 
     def form_valid(self, form):
         if form.is_valid():
+            # Обновляем слаг блога
             new_blog = form.save(commit=False)
             new_blog.slug = slugify(new_blog.title)
             new_blog.save()

@@ -2,13 +2,15 @@
 
 {% block content %}
     <div class="container mt-5 d-flex flex-column align-items-center">
-        <h1 class="text-center">Опубликованные посты</h1>
-        {% if perms.blog.can_title and perms.blog.can_content and perms.blog.can_preview_image and perms.blog.can_is_published %}
+        <h1 class="text-center">Блоги</h1>
+
+        <!-- Проверяем, если пользователь аутентифицирован -->
+        {% if user.is_authenticated %}
             <div class="d-flex justify-content-center mb-3">
                 <a href="{% url 'blog:blog_create' %}" class="btn btn-success mr-2">Создать новый пост</a>
-                <a href="{% url 'blog:blog_list_all' %}" class="btn btn-secondary">Показать так же не опубликованные посты</a>
             </div>
         {% endif %}
+
         <ul class="list-group w-50">
             {% for blog in object_list %}
                 <li class="list-group-item">
