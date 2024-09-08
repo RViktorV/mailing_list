@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+
+<html lang="ru">
+<body>
+   <header>
+       <h1>Почтовые рассылки</h1>
+   </header>
+   <nav>
+       <ul>
+           <li><a href="{% url 'mailing:client-list' %}">Клиенты</a></li>
+           <li><a href="{% url 'mailing:message-list' %}">Сообщения</a></li>
+           <li><a href="{% url 'mailing:mailing-list' %}">Рассылка сообщений</a></li>
+           <li><a href="{% url 'mailing:attempt-list' %}">Список попыток</a></li>
+       </ul>
+   </nav>
+   <main>
+       {% block content %}
+       <!-- Основное содержимое страницы будет вставляться здесь -->
+       {% endblock %}
+   </main>
+   <footer>
+       <p>&copy; 2024 Почтовые рассылки</p>
+   </footer>
+</body>
+</html>
+{% endblock %}

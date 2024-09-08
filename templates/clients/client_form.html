@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="form-container">
+    <h2>{% if object %}Редактировать{% else %}Добавить{% endif %} клиента</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Сохранить</button>
+    </form>
+    <a class="back-link" href="{% url 'mailing:client-list' %}">Назад к списку клиентов</a>
+</div>
+
+{% include 'includes/style.html' %}
+{% endblock %}

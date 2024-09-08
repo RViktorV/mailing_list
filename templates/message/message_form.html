@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="form-container">
+    <h2>{% if object %}Редактировать{% else %}Добавить{% endif %} сообщение</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="submit-button">Сохранить</button>
+    </form>
+    <a class="back-link" href="{% url 'mailing:message-list' %}">Назад к списку сообщений</a>
+</div>
+
+{% include 'includes/style.html' %}
+{% endblock %}

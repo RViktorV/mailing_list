@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container mt-5 d-flex flex-column align-items-center">
+        <h1 class="text-center">Блоги</h1>
+
+        <!-- Проверяем, если пользователь аутентифицирован -->
+        {% if user.is_authenticated %}
+            <div class="d-flex justify-content-center mb-3">
+                <a href="{% url 'blog:blog_create' %}" class="btn btn-success mr-2">Создать новый пост</a>
+            </div>
+        {% endif %}
+
+        <ul class="list-group w-50">
+            {% for blog in object_list %}
+                <li class="list-group-item">
+                    <a href="{% url 'blog:blog_detail' blog.pk %}" class="font-weight-bold">{{ blog.title }}</a>
+                    <div class="border p-3 mt-2">
+                        {{ blog.content }}
+                    </div>
+                </li>
+            {% empty %}
+                <li class="list-group-item">Нет доступных постов.</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

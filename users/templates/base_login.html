@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ru">
+{% include 'includes/inc_menu.html' %}
+{% include 'includes/head.html' %}
+<body>
+<header style="display: flex; justify-content: center; align-items: center; height: 100px;">
+    <h1>Почтовые рассылки</h1>
+</header>
+
+<main>
+    {% block content %}
+    <!-- Основное содержимое страницы будет вставляться здесь -->
+    {% endblock %}
+</main>
+<footer style="display: flex; justify-content: center; align-items: center; height: 100px;">
+    <p>&copy; 2024 Почтовые рассылки</p>
+</footer>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        flatpickr('.datetime-picker', {
+            enableTime: true,
+            dateFormat: 'Y-m-d H:i',
+        });
+    });
+</script>
+</body>
+</html>

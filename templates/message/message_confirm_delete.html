@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Подтверждение удаления сообещния</title>
+    {% include 'includes/style_delete.html' %}
+</head>
+<body>
+<header>
+    <h2>Подтверждение удаления сообещния</h2>
+</header>
+<p>Вы уверены, что хотите удалить сообещния "{{ object.subject }}"?</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Удалить</button>
+    <a href="{% url 'mailing:message-list' %}">
+        <button type="button" class="cancel-button">Отмена</button>
+    </a>
+</form>
+{% include 'includes/style.html' %}
+</body>
+</html>
+{% endblock %}

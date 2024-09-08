@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+<body>
+    <div class="container mt-5">
+        <h1>{{ blog.title }}</h1>
+        {% if blog.preview_image %}
+            <img src="{{ blog.preview_image.url }}" alt="Preview" class="img-fluid">
+        {% else %}
+            <p>Нет изображения</p>
+        {% endif %}
+        <p>{{ blog.content }}</p>
+        <p>slug : {{ blog.slug }}</p>
+        <p>Создан в: {{ blog.created_at }}</p>
+        <p>Опубликовано: {% if blog.is_published %}Да{% else %}Нет{% endif %} </p>
+        <p>Просмотров: {{ blog.view_count }}</p>
+        {% if object.owner == user or perms.blog.can_title and perms.blog.can_content and perms.blog.can_preview_image and perms.blog.can_is_published %}
+        <a href="{% url 'blog:blog_update' blog.pk %}" class="btn btn-secondary">Редактировать</a>
+        <a href="{% url 'blog:blog_delete' blog.pk %}" class="btn btn-danger">Удалить</a>
+        {% endif %}
+        <a href="{% url 'blog:blog_list' %}" class="btn btn-primary">Обратно к списку</a>
+    </div>
+</body>
+{% endblock %}

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+{% include 'includes/inc_menu.html' %}
+{% include 'includes/head.html' %}
+
+<body style="margin: 0; font-family: Arial, sans-serif; background-color: #f4f4f4;">
+<header style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 150px; background-color: #007BFF; color: white; text-align: center;">
+    <h1 style="margin: 0;">Сервис управления рассылками</h1>
+</header>
+<section
+        style="display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; text-align: center;">
+    {% if not user.is_authenticated %}
+    <h2 style="color: #333; margin-bottom: 20px;">На данном сайте вы можете создавать, контролировать и управлять
+        рассылками для информирования и привлечения клиентов!</h2>
+    <h3 style="color: #666;">Войдите или зарегистрируйтесь</h3>
+    {% endif %}
+</section>
+
+{% if user.is_authenticated %}
+<nav>
+    <ul style="display: flex; justify-content: center; padding: 0; list-style: none;">
+        <li style="margin: 0 15px;"><a href="{% url 'mailing:client-list' %}">Клиенты</a></li>
+        <li style="margin: 0 15px;"><a href="{% url 'mailing:message-list' %}">Сообщения</a></li>
+        <li style="margin: 0 15px;"><a href="{% url 'mailing:mailing-list' %}">Рассылка сообщений</a></li>
+        <li style="margin: 0 15px;"><a href="{% url 'mailing:attempt-list' %}">Список попыток</a></li>
+        <li style="margin: 0 15px;"><a href="{% url 'blog:blog_list' %}">Блог</a></li>
+   </ul>
+</nav>
+{% endif %}
+
+<main style="display: flex; justify-content: center; align-items: center; padding: 20px;">
+    {% block content %}
+    <div style="text-align: center; margin: 0 auto;">
+    <p>Количество рассылок всего: {{ mailings_count }}</p>
+    <p>Количество активных рассылок: {{ mailings_count_active }}</p>
+    <p>Количество уникальных клиентов: {{ clients_count }}</p>
+
+<h2>Статьи из блога</h2>
+<ul style="list-style: none; padding: 0;">
+    {% for blog in articles %}
+        <li><a href="{% url 'blog:blog_detail' blog.id %}">{{ blog.title }}</a></li>
+    {% endfor %}
+</ul>
+</div>
+
+    {% endblock %}
+</main>
+
+<footer style="display: flex; justify-content: center; align-items: center; height: 50px; background-color: #007BFF; color: white; text-align: center;">
+    <p style="margin: 0;">&copy; 2024 Почтовые рассылки</p>
+</footer>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        flatpickr('.datetime-picker', {
+            enableTime: true,
+            dateFormat: 'Y-m-d H:i',
+        });
+    });
+</script>
+
+</body>
+</html>

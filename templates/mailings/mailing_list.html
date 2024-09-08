@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1>Список рассылки</h1>
+    <a class="create-link" href="{% url 'mailing:mailing-create' %}">Создать новую рассылку</a>
+    <ul class="mailing-list">
+        {% for mailing in mailings %}
+        <li class="mailing-item">
+            <strong>{{ mailing.message.subject }}</strong> - {{ mailing.start_datetime|date:"d.m.Y H:i" }} - {{ mailing.end_datetime|date:"d.m.Y H:i" }}
+            <div class="actions">
+                <a href="{% url 'mailing:mailing-update' mailing.pk %}">Редактировать</a>
+                <a href="{% url 'mailing:mailing-delete' mailing.pk %}">Удалить</a>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 80%;
+        max-width: 600px;
+        margin: 40px auto;
+        text-align: center;
+    }
+
+    h1 {
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    .create-link {
+        display: inline-block;
+        margin-bottom: 20px;
+        text-decoration: none;
+        color: #007bff;
+        font-size: 16px;
+    }
+
+    .create-link:hover {
+        text-decoration: underline;
+    }
+
+    .mailing-list {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .mailing-item {
+        background-color: #f9f9f9;
+        margin: 10px 0;
+        padding: 10px;
+        border-radius: 5px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        text-align: left;
+    }
+
+    .actions {
+        margin-top: 10px;
+    }
+
+    .actions a {
+        text-decoration: none;
+        color: #007bff;
+        margin-right: 10px;
+        font-size: 14px;
+    }
+
+    .actions a:hover {
+        text-decoration: underline;
+    }
+</style>
+{% endblock %}

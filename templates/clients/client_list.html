@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<html>
+<body>
+<!-- Основное содержимое -->
+<div class="main-content">
+    <div class="container">
+        <h2>Список клиентов</h2>
+        <a href="{% url 'mailing:client-create' %}">Создать нового клиента</a>
+        <ul>
+            {% for client in clients %}
+            <li>
+                <strong>{{ client.full_name }}</strong><br>
+                {{ client.email }}<br>
+                <a href="{% url 'mailing:client-update' client.pk %}">Редактировать</a>
+                <a href="{% url 'mailing:client-delete' client.pk %}">Удалить</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+</body>
+</html>
+{% endblock %}

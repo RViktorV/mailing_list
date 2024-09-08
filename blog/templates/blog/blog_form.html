@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<body>
+<div class="container mt-5">
+    <h1>Создать/редактировать сообщение в блоге</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-success">
+            {% if object.pk %}
+            Изменить
+            {% else %}
+            Создать
+            {% endif %}
+        </button>
+        <a href="{% url 'blog:blog_list' %}" class="btn btn-secondary">Отмена</a>
+    </form>
+</div>
+</body>
+{% endblock %}
