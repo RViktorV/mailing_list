@@ -56,13 +56,15 @@ class CanViewAttemptsMixin(UserPassesTestMixin):
         return queryset.filter(mailing__owner=self.request.user).exists()
 
 
-class IsSuperuserMixin(UserPassesTestMixin):
+class IsOwnerOrModeratorMixin(UserPassesTestMixin):
     """
-    Миксин для проверки, является ли пользователь суперпользователем.
+    Миксин, чтобы проверить, является ли пользователь владельцем, суперпользователем или членом группы «Модератор».
     """
-
     def test_func(self):
-        return self.request.user.is_superuser
+        mailing = get_object_or_404(Mailing, pk=self.kwargs.get('pk'))
+        return (self.request.user == mailing.owner or
+                self.request.user.is_superuser or
+                self.request.user.groups.filter(name='Moderator').exists())
 
 
 class IsManagerMixin(UserPassesTestMixin):
@@ -297,9 +299,10 @@ class MailingListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         """
-        Суперпользователь видит все рассылки, обычные пользователи — только свои.
+        Модераторы и суперпользователи могут видеть все рассылки,
+        обычные пользователи могут видеть только свои.
         """
-        if self.request.user.is_superuser:
+        if self.request.user.is_superuser or self.request.user.groups.filter(name='Moderator').exists():
             return Mailing.objects.all()
         return Mailing.objects.filter(owner=self.request.user)
 
@@ -328,14 +331,35 @@ class MailingCreateView(CreateView):
         return super().form_valid(form)
 
 
-class MailingUpdateView(IsOwnerOrSuperuserMixin, UpdateView):
+class MailingUpdateView(IsOwnerOrModeratorMixin, UpdateView):
     """
-    Представление для обновления рассылки.
-    """
+   Просмотр обновления рассылок.
+   """
     model = Mailing
     form_class = MailingForm
     template_name = 'mailings/mailing_form.html'
     success_url = reverse_lazy('mailing:mailing-list')
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        if self.request.user.groups.filter(name='Moderator').exists():
+            if self.object.owner != self.request.user:
+                # Если рассылка не принадлежит модератору, разрешите редактирование только поля статуса.
+                form.fields['status'].disabled = False
+                form.fields['start_datetime'].disabled = True
+                form.fields['end_datetime'].disabled = True
+                form.fields['periodicity'].disabled = True
+                form.fields['message'].disabled = True
+                form.fields['clients'].disabled = True
+            else:
+                # Если рассылка принадлежит модератору, разрешите редактирование всех полей
+                form.fields['status'].disabled = False
+                form.fields['start_datetime'].disabled = False
+                form.fields['end_datetime'].disabled = False
+                form.fields['periodicity'].disabled = False
+                form.fields['message'].disabled = False
+                form.fields['clients'].disabled = False
+        return form
 
 class MailingDeleteView(IsOwnerOrSuperuserMixin, DeleteView):
     """
