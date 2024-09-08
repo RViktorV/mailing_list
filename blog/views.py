@@ -24,7 +24,7 @@ class IsOwnerOrContentManagerMixin(UserPassesTestMixin):
     def test_func(self):
         user = self.request.user
         blog = self.get_object()
-        return user.is_superuser or user.groups.filter(name='Content Manager').exists() or blog.owner == user
+        return user.is_superuser or user.groups.filter(name='ContentManager').exists() or blog.owner == user
 
 class BlogListViewAll(ListView):
     """
@@ -106,7 +106,7 @@ class BlogUpdateView(LoginRequiredMixin, IsOwnerOrContentManagerMixin, UpdateVie
 
     def get_form_class(self):
         user = self.request.user
-        if user.is_superuser or user.groups.filter(name='Content Manager').exists():
+        if user.is_superuser or user.groups.filter(name='ContentManager').exists():
             return BlogContentManagerForm
         else:
             return BlogForm

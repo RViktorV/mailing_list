@@ -26,7 +26,7 @@ def home(request):
 
     context = {
         "mailings_count": mailings.count(),
-        "mailings_count_active": mailings.exclude(status=Mailing.STOPPED).count(),
+        "mailings_count_active": mailings.exclude(status=Mailing.CREATED).count(),
         "clients_count": Client.objects.all().values("email").distinct().count(),
         "articles": blogs,  # Передаём блоги в контекст
     }

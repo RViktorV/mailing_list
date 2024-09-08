@@ -78,10 +78,12 @@ class Mailing(models.Model):
     CREATED = 'CREATED'
     STARTED = 'STARTED'
     COMPLETED = 'COMPLETED'
+    STOPPED = 'STOPPED'
     STATUS_CHOICES = [
         (CREATED, 'Созданный'),
         (STARTED, 'Начатый'),
         (COMPLETED, 'Завершенный'),
+        (STOPPED, 'Остановленный'),
     ]
 
     start_datetime = models.DateTimeField()
@@ -90,9 +92,7 @@ class Mailing(models.Model):
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default=CREATED)
     message = models.ForeignKey(Message, on_delete=models.CASCADE)
     clients = models.ManyToManyField(Client)
-    owner = models.ForeignKey(Users, verbose_name='Собственник рассылки', **NULLABLE, on_delete=models.SET_NULL)
-
-    STOPPED = 'completed'
+    owner = models.ForeignKey(Users, verbose_name='Собственник рассылки', null=True, blank=True, on_delete=models.SET_NULL)
 
     class Meta:
         verbose_name = 'Рассылка'

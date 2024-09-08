@@ -18,6 +18,8 @@ pillow = "^10.4.0"
 pytils = "^0.4.1"
 redis = "^5.0.8"
 django-redis = "^5.4.0"
+getenv = "^0.2.0"
+python-dotenv = "^1.0.1"
 
 
 [build-system]

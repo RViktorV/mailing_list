@@ -16,6 +16,15 @@ def send_mailing():
     zone = pytz.timezone(settings.TIME_ZONE)
     current_datetime = datetime.now(zone)
 
+    # Обновляем статус рассылок на 'STOPPED', если время окончания прошло
+    mailings_to_stop = Mailing.objects.filter(
+        end_datetime__lt=current_datetime,
+        status__ne=Mailing.STOPPED
+    )
+    for mailing in mailings_to_stop:
+        mailing.status = Mailing.STOPPED
+        mailing.save()
+
     # Получение писем, которые необходимо обработать
     mailings = Mailing.objects.filter(
         Q(start_datetime__lte=current_datetime) &
