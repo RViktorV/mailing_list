@@ -1,10 +1,13 @@
 from django.db import models
 from django.utils.text import slugify
 
+from config import settings
+
 NULLABLE = {'null': True, 'blank': True}
 
 
 class Blog(models.Model):
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, default=3)
     title = models.CharField(max_length=200, verbose_name="Заголовок")
     slug = models.CharField(unique=True, max_length=200, verbose_name="Ссылка")
     content = models.TextField(verbose_name="Содержимое")

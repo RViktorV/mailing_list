@@ -7,7 +7,7 @@
     <ul class="mailing-list">
         {% for mailing in mailings %}
         <li class="mailing-item">
-            <strong>{{ mailing.message.subject }}</strong> - {{ mailing.start_datetime|date:"d.m.Y H:i" }}
+            <strong>{{ mailing.message.subject }}</strong> - {{ mailing.start_datetime|date:"d.m.Y H:i" }} - {{ mailing.end_datetime|date:"d.m.Y H:i" }}
             <div class="actions">
                 <a href="{% url 'mailing:mailing-update' mailing.pk %}">Редактировать</a>
                 <a href="{% url 'mailing:mailing-delete' mailing.pk %}">Удалить</a>

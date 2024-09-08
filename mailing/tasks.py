@@ -19,6 +19,7 @@ def send_mailing():
     # Получение писем, которые необходимо обработать
     mailings = Mailing.objects.filter(
         Q(start_datetime__lte=current_datetime) &
+        Q(end_datetime__gte=current_datetime) &  # добавили фильтр по end_datetime
         Q(status__in=['CREATED', 'STARTED'])
     )
 
@@ -40,7 +41,7 @@ def send_mailing():
             next_send_time = mailing.start_datetime
 
         # Проверьте, пора ли отправлять рассылку
-        if current_datetime >= next_send_time:
+        if current_datetime >= next_send_time and current_datetime <= mailing.end_datetime:  # добавили проверку end_datetime
             try:
                 send_mail(
                     subject=mailing.message.subject,
@@ -51,6 +52,7 @@ def send_mailing():
                 # Зарегистрируйте успешную попытку
                 MailingAttempt.objects.create(mailing=mailing, status='success')
                 mailing.status = 'COMPLETED'  # Или обновить при необходимости
+                mailing.end_datetime = current_datetime  # Обновите поле end_datetime
             except Exception as e:
                 # Зарегистрируйте неудачную попытку с ответом или ошибкой сервера.
                 MailingAttempt.objects.create(mailing=mailing, status='failed', server_response=str(e))

@@ -6,8 +6,7 @@
         {% if perms.blog.can_title and perms.blog.can_content and perms.blog.can_preview_image and perms.blog.can_is_published %}
             <div class="d-flex justify-content-center mb-3">
                 <a href="{% url 'blog:blog_create' %}" class="btn btn-success mr-2">Создать новый пост</a>
-                <a href="{% url 'blog:blog_list_all' %}" class="btn btn-secondary">Показать так же не опубликованные
-                    посты</a>
+                <a href="{% url 'blog:blog_list_all' %}" class="btn btn-secondary">Показать так же не опубликованные посты</a>
             </div>
         {% endif %}
         <ul class="list-group w-50">
@@ -18,6 +17,8 @@
                         {{ blog.content }}
                     </div>
                 </li>
+            {% empty %}
+                <li class="list-group-item">Нет доступных постов.</li>
             {% endfor %}
         </ul>
     </div>

@@ -8,14 +8,14 @@
     <div class="container">
         <h2>Список сообщений</h2>
         <a href="{% url 'mailing:message-create' %}">Создать новое сообщение</a>
-        <ul class="message-list">
-            {% for message in messages %}
-            <li class="message-item">
-                {{ message.subject }}
-                <a href="{% url 'mailing:message-update' message.pk %}" class="edit-link">Редактировать</a>
-                <a href="{% url 'mailing:message-delete' message.pk %}" class="delete-link">Удалить</a>
-            </li>
-            {% endfor %}
-        </ul>
+            <ul class="message-list">
+                {% for message in message %}
+                <li class="message-item">
+                    {{ message.subject }}
+                    <a href="{% url 'mailing:message-update' message.pk %}" class="edit-link">Редактировать</a>
+                    <a href="{% url 'mailing:message-delete' message.pk %}" class="delete-link">Удалить</a>
+                </li>
+                {% endfor %}
+            </ul>
     </div>
     {% endblock %}
