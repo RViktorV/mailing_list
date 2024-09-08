@@ -1,0 +1,55 @@
+<h2 style="text-align: center; margin-bottom: 20px;">Список пользователей</h2>
+
+<div style="display: flex; justify-content: center; margin-bottom: 20px;">
+    <a href="{% url 'mailing:home' %}" class="btn btn-primary" style="padding: 10px 20px;">На главную</a>
+</div>
+
+<div style="display: flex; justify-content: center;">
+    <div style="width: 80%; max-width: 800px;">
+        <table style="width: 100%; border-collapse: collapse; text-align: left; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+            <thead style="background-color: #007BFF; color: white;">
+                <tr>
+                    <th style="padding: 10px;">Email</th>
+                    <th style="padding: 10px; text-align: center;">Активный</th>
+                    <th style="padding: 10px; text-align: center;">Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr style="border-bottom: 1px solid #ddd;">
+                    <td style="padding: 10px;">{{ user.email }}</td>
+                    <td style="padding: 10px; text-align: center;">
+                        {% if user.is_active %}
+                            <span style="color: green;">Да</span>
+                        {% else %}
+                            <span style="color: red;">Нет</span>
+                        {% endif %}
+                    </td>
+                    <td style="padding: 10px; text-align: center;">
+                        {% if not user.is_superuser %}
+                        <form method="post" action="{% url 'users:toggle_user_status' user.id %}">
+                            {% csrf_token %}
+                            <button type="submit" style="
+                                padding: 8px 16px;
+                                background-color: {% if user.is_active %}#DC3545{% else %}#28A745{% endif %};
+                                color: white;
+                                border: none;
+                                border-radius: 5px;
+                                cursor: pointer;
+                                font-size: 14px;
+                                ">
+                                {% if user.is_active %}
+                                    Заблокировать
+                                {% else %}
+                                    Разблокировать
+                                {% endif %}
+                            </button>
+                        </form>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>

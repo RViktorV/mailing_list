@@ -39,6 +39,13 @@
                         <i class="bi bi-box-arrow-right"></i> Выход
                     </a>
                 </li>
+                <li class="nav-item">
+                    {% if perms.users.views_list_users and perms.users.block_users_service and not user.is_superuser %}
+                    <a class="nav-link" href="{% url 'users:user_list' %}">
+                        <i class="bi bi-people"></i> Просмотреть пользователей
+                    </a>
+                    {% endif %}
+                </li>
                 {% else %}
                 <!-- Кнопки "Вход" и "Регистрация" для неаутентифицированных пользователей -->
                 <li class="nav-item">

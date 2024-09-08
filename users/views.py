@@ -17,6 +17,14 @@ from config.settings import EMAIL_HOST_USER
 
 from django.views.generic import FormView
 
+from django.contrib.auth.mixins import UserPassesTestMixin
+from django.views.generic import ListView
+
+from django.views import View
+from django.http import HttpResponseRedirect
+
+
+
 
 class UserCreateView(CreateView):
     """
@@ -158,3 +166,38 @@ class CustomPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
     """
     template_name = 'profile_edit.html'
     success_url = reverse_lazy('users:login')
+
+
+class UserListView(UserPassesTestMixin, ListView):
+    model = Users
+    template_name = 'users/user_list.html'
+    context_object_name = 'users'
+
+    def test_func(self):
+        return self.request.user.groups.filter(name='Moderator').exists()
+
+    def handle_no_permission(self):
+        return redirect('home')  # Перенаправление на дом, если вы не модератор
+
+
+class BlockUserView(UserPassesTestMixin, View):
+    def test_func(self):
+        return self.request.user.groups.filter(name='Moderator').exists()
+
+    def post(self, request, pk):
+        user = get_object_or_404(Users, pk=pk)
+        user.is_active = False
+        user.save()
+        return HttpResponseRedirect(reverse('users:user_list'))
+
+
+class ToggleUserStatusView(UserPassesTestMixin, View):
+    def test_func(self):
+        return self.request.user.groups.filter(name='Moderator').exists()
+
+    def post(self, request, pk):
+        user = get_object_or_404(Users, pk=pk)
+        # Переключить статус is_active
+        user.is_active = not user.is_active
+        user.save()
+        return HttpResponseRedirect(reverse('users:user_list'))
